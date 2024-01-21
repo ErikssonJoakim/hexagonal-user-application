@@ -1,5 +1,6 @@
 import { UserInMemoryRepository } from "@/infra/user.inmemory.repository";
 import type { RegisterUserCommand } from "@/application/usecases/register-user.usecase";
+import { StubDateProvider } from "@/infra/stub-date-provider";
 import { StubIdProvider } from "@/infra/stub-id-provider";
 import type { User } from "@/domain/user";
 
@@ -15,6 +16,7 @@ type Fixture = {
 export const createFixture = (): Fixture => {
   const inMemoryRepository = new UserInMemoryRepository();
   const idProvider = new StubIdProvider();
+  const dateProvider = new StubDateProvider();
 
   const givenRepositoryIsPopulatedWith = (users: User[]): void => {
     idProvider.id = "1";
@@ -24,7 +26,9 @@ export const createFixture = (): Fixture => {
     });
   };
 
-  const givenNowIs = (now: Date): void => {};
+  const givenNowIs = (now: Date): void => {
+    dateProvider.now = now;
+  };
 
   const whenUserRegisters = async (
     registerUserCommand: RegisterUserCommand
