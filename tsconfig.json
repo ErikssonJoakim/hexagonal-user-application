@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "lib": ["ESNext"],
+      "module": "ESNext",
+      "moduleResolution": "Node10",
+      "allowJs": false,
+      "skipLibCheck": true,   
+      "esModuleInterop": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "strictNullChecks": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "types": ["node", "jest"],
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "baseUrl": "."
+    },
+    "include": ["src"],
+  } 
