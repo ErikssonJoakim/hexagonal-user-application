@@ -15,6 +15,9 @@
     "node": "^18.18.0",
     "yarn": "^1.22.21"
   },
+  "dependencies": {
+    "mysql2": "^3.7.1"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.5",
