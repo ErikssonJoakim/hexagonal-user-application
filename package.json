@@ -9,6 +9,10 @@
   },
   "scripts": {
     "test": "jest",
+    "build": "tsc --noEmit && yarn build:graphql",
+    "build:graphql": "esbuild src/apps/graphql/index.ts --bundle --platform=node --format=cjs --outfile=dist/graphql/index.js",
+    "start": "yarn start:graphql",
+    "start:graphql": "node ./dist/graphql/index.js",
     "lint": "eslint src --max-warnings=0"
   },
   "engines": {
