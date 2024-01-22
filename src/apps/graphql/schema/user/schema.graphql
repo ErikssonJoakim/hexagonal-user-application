@@ -1,0 +1,30 @@
+extend type Query {
+  user(id: ID!): User
+}
+
+extend type Mutation {
+  createUser(input: UserRegistration!): User
+}
+
+"""
+Input necessairy to create a user.
+"""
+input UserRegistration {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+"""
+User is the identity of a user.
+"""
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
