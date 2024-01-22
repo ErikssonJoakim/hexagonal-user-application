@@ -16,10 +16,10 @@ Be sure to have the following properly installed:
 
 ### Setup
 
-Install the dependencies:
+Install the dependencies and build the project:
 
 ```sh
-yarn
+yarn && yarn build
 ```
 
 ### Test
@@ -30,15 +30,24 @@ Test the project with the following command:
 yarn test
 ```
 
+### Launch
+
+Launch the app of your choosing:
+
+```sh
+yarn start:graphql
+```
+
 ### Setting up the MySQL database
 
 Launch the following commands to set up the database
 
 ### Configuration 
 
-The database require certain environment variables to work. Go ahead and use the .env.example files provided by changing the file name to '.env'
+The database and server require certain environment variables to work. Go ahead and use the .env.example files provided by changing the file name to '.env'
 
 ```sh
+mv .env.example .env && \
 mv ./database/.env.example ./database/.env
 ```
 
