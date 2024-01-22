@@ -1,6 +1,6 @@
 # Hexagonal User Application
 
-[![test](https://img.shields.io/github/actions/workflow/status/ErikssonJoakim/hexagonal-user-application/test.yml?branch=main&label=test&style=for-the-badge&logo=github)](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/test.yml)
+[![test](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/test.yml/badge.svg)](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/test.yml)
 
 ## Install
 
