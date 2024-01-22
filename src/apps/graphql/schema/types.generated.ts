@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { UserMapper } from './user/schema.mappers';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -132,7 +133,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserMapper>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UserRegistration: UserRegistration;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
@@ -144,7 +145,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   ID: Scalars['ID']['output'];
-  User: User;
+  User: UserMapper;
   String: Scalars['String']['output'];
   UserRegistration: UserRegistration;
   Boolean: Scalars['Boolean']['output'];
