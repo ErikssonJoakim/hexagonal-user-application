@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "jest",
+    "codegen": "graphql-codegen --config codegen.ts",
     "build": "tsc --noEmit && yarn build:graphql",
     "build:graphql": "esbuild src/apps/graphql/index.ts --bundle --platform=node --format=cjs --outfile=dist/graphql/index.js",
     "start": "yarn start:graphql",
