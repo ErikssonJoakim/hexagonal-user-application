@@ -1,5 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { typeDefs } from "@/apps/graphql/schema/typeDefs.generated";
+import { resolvers } from "@/apps/graphql/schema/resolvers.generated";
 import { MysqlUserRepositoryAdaptor } from "@/infra/mysql/user.mysql.repository.adaptor";
 import type { RegisterUserCommand } from "@/application/usecases/register-user.usecase";
 import { RegisterUserUseCase } from "@/application/usecases/register-user.usecase";
@@ -55,9 +57,6 @@ export type Context = {
     userAPI: UserAPI;
   };
 };
-
-const typeDefs = `#graphql`;
-const resolvers = {};
 
 const server = new ApolloServer<Context>({
   typeDefs,
