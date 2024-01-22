@@ -16,6 +16,7 @@
     "yarn": "^1.22.21"
   },
   "dependencies": {
+    "@apollo/server": "^4.10.0",
     "mysql2": "^3.7.1"
   },
   "devDependencies": {
