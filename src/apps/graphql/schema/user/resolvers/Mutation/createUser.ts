@@ -18,9 +18,9 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
   _arg,
   _ctx: Context
 ) => {
-  const { register, getByEmail } = _ctx.dataSources.userAPI;
-  await register(_arg.input).then((response) => {
-    if (response) {
+  const { register, getByID } = _ctx.dataSources.userAPI;
+  const id = await register(_arg.input).then((response) => {
+    if (typeof response !== "string") {
       switch (response._tag) {
         case "network-http":
           throw new GraphQLError(presentNetworkError(response), {
@@ -35,10 +35,12 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
             extensions: { code: "CONFLICT" },
           });
       }
+    } else {
+      return response;
     }
   });
 
-  const user = await getByEmail(_arg.input.email).then((response) => {
+  const user = await getByID(id).then((response) => {
     if (User.isUser(response)) return response;
     switch (response._tag) {
       case "network-http":

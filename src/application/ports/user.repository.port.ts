@@ -1,4 +1,4 @@
-import type { Email } from "@/types/super-types";
+import type { ID } from "@/types/super-types";
 import type { User } from "@/domain/user";
 import type { NetworkError } from "@/application/errors/network";
 import type { SerializationError } from "@/application/errors/serialization";
@@ -10,8 +10,8 @@ import type {
 export abstract class UserRepositoryPort {
   abstract create(
     user: User
-  ): Promise<void | NetworkError | ResourceAlreadyExistsError>;
-  abstract getByEmail(
-    userEmail: Email
+  ): Promise<ID | NetworkError | ResourceAlreadyExistsError>;
+  abstract getByID(
+    id: ID
   ): Promise<User | NetworkError | SerializationError | ResourceNotFoundError>;
 }

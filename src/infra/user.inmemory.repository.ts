@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from "@/application/errors/resource";
 import { ResourceAlreadyExistsError } from "@/application/errors/resource";
 import type { UserRepositoryPort } from "@/application/ports/user.repository.port";
 import { User } from "@/domain/user";
+import type { ID } from "@/types/super-types";
 
 export type InMemoryUser = {
   user_id: string;
@@ -25,11 +26,12 @@ export class UserInMemoryRepository implements UserRepositoryPort {
     password,
     createdAt,
     updatedAt,
-  }: User): Promise<void | ResourceAlreadyExistsError> {
-    const repositoryResponse = await this.getByEmail(email);
+  }: User): Promise<ID | ResourceAlreadyExistsError> {
+    const repositoryResponse = [...this.users.values()].find(
+      (repositoryUser) => repositoryUser.email === email
+    );
 
-    if (User.isUser(repositoryResponse))
-      return ResourceAlreadyExistsError([repositoryResponse.email]);
+    if (repositoryResponse) return ResourceAlreadyExistsError([email]);
 
     const repositoryUser: InMemoryUser = {
       user_id: id,
@@ -41,15 +43,16 @@ export class UserInMemoryRepository implements UserRepositoryPort {
       updated_at: updatedAt,
     };
 
-    this.users.set(email, repositoryUser);
+    this.users.set(repositoryUser.user_id, repositoryUser);
+    return repositoryUser.user_id;
   }
 
-  async getByEmail(
-    userEmail: string
+  async getByID(
+    id: ID
   ): Promise<User | SerializationError | ResourceNotFoundError> {
     return new Promise<User | SerializationError | ResourceNotFoundError>(
       (resolve) => {
-        const repositoryUser = this.users.get(userEmail);
+        const repositoryUser = this.users.get(id);
 
         if (repositoryUser) {
           const {
@@ -82,7 +85,7 @@ export class UserInMemoryRepository implements UserRepositoryPort {
             );
           }
         } else {
-          resolve(ResourceNotFoundError(userEmail));
+          resolve(ResourceNotFoundError(id));
         }
       }
     );

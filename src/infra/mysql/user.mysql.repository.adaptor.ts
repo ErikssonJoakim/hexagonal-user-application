@@ -1,5 +1,5 @@
 import type { UserRepositoryPort } from "@/application/ports/user.repository.port";
-import type { Email } from "@/types/super-types";
+import type { ID } from "@/types/super-types";
 import type * as mysql from "mysql2/promise";
 import { User } from "@/domain/user";
 import type { NetworkError } from "@/application/errors/network";
@@ -26,15 +26,15 @@ interface MysqlUser extends mysql.RowDataPacket {
 const REGISTER_USER_QUERY =
   "INSERT INTO users(email, first_name, last_name, password) VALUES(?, ?, ?, ?);";
 
-const GET_USER_BY_EMAIL =
-  "SELECT user_id, email, first_name, last_name, password, created_at, updated_at FROM users WHERE email = ?;";
+const GET_USER_BY_ID =
+  "SELECT user_id, email, first_name, last_name, password, created_at, updated_at FROM users WHERE user_id = ?;";
 
 export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly pool: mysql.Pool) {}
 
   async create(
     user: User
-  ): Promise<void | NetworkError | ResourceAlreadyExistsError> {
+  ): Promise<ID | NetworkError | ResourceAlreadyExistsError> {
     const { email, firstName, lastName, password } = user.data;
 
     return this.pool
@@ -44,7 +44,7 @@ export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
         lastName,
         password,
       ])
-      .then(() => {})
+      .then((response) => response[0].insertId.toString())
       .catch((error) => {
         switch (error.code) {
           case "ER_DUP_ENTRY":
@@ -63,12 +63,12 @@ export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
       });
   }
 
-  async getByEmail(
-    userEmail: Email
+  async getByID(
+    id: ID
   ): Promise<User | NetworkError | SerializationError | ResourceNotFoundError> {
-    return this.pool.execute<MysqlUser[]>(GET_USER_BY_EMAIL, [userEmail]).then(
+    return this.pool.execute<MysqlUser[]>(GET_USER_BY_ID, [id]).then(
       ([rows]) => {
-        if (rows.length === 0) return ResourceNotFoundError(userEmail);
+        if (rows.length === 0) return ResourceNotFoundError(id);
 
         try {
           const {

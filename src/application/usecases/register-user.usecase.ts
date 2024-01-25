@@ -1,4 +1,4 @@
-import type { Email, Password } from "@/types/super-types";
+import type { Email, ID, Password } from "@/types/super-types";
 import { User } from "@/domain/user";
 import type { UserRepositoryPort } from "@/application/ports/user.repository.port";
 import type { DateProviderPort } from "@/application/ports/date-provider.port";
@@ -26,7 +26,7 @@ export class RegisterUserUseCase {
     lastName,
     password,
   }: RegisterUserCommand): Promise<
-    void | NetworkError | ResourceAlreadyExistsError
+    ID | NetworkError | ResourceAlreadyExistsError
   > {
     return this.userRepository.create(
       User.fromData({

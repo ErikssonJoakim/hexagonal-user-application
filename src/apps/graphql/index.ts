@@ -7,7 +7,7 @@ import type { RegisterUserCommand } from "@/application/usecases/register-user.u
 import { RegisterUserUseCase } from "@/application/usecases/register-user.usecase";
 import { DummyIdProvider } from "@/infra/dummy-id-provider";
 import { RealDateProvider } from "@/infra/real-date-provider";
-import type { Email } from "@/types/super-types";
+import type { ID } from "@/types/super-types";
 import type { User } from "@/domain/user";
 import * as mysql from "mysql2/promise";
 import { config } from "@/lib/config";
@@ -56,9 +56,9 @@ const registerUserUseCase = new RegisterUserUseCase(
 type UserAPI = {
   register: (
     registerUserCommand: RegisterUserCommand
-  ) => Promise<void | NetworkError | ResourceAlreadyExistsError>;
-  getByEmail: (
-    email: Email
+  ) => Promise<ID | NetworkError | ResourceAlreadyExistsError>;
+  getByID: (
+    id: ID
   ) => Promise<
     User | NetworkError | SerializationError | ResourceNotFoundError
   >;
@@ -83,7 +83,7 @@ const main = async (): Promise<void> => {
       dataSources: {
         userAPI: {
           register: registerUserUseCase.handle.bind(registerUserUseCase),
-          getByEmail: mysqlRepository.getByEmail.bind(mysqlRepository),
+          getByID: mysqlRepository.getByID.bind(mysqlRepository),
         },
       },
     }),

@@ -51,8 +51,8 @@ export const createRegisterUserFixture = (): RegisterUserFixture => {
   const whenUserRegisters = async (
     registerUserCommand: RegisterUserCommand
   ): Promise<void> => {
-    await registerUserUseCase.handle(registerUserCommand).then((error) => {
-      if (isResourceAlreadyExistsError(error)) registrationError = error;
+    await registerUserUseCase.handle(registerUserCommand).then((response) => {
+      if (isResourceAlreadyExistsError(response)) registrationError = response;
     });
   };
 
@@ -62,8 +62,8 @@ export const createRegisterUserFixture = (): RegisterUserFixture => {
     const inMemoryMapKeys = [...inMemoryRepository.users.keys()];
 
     const registeredUsers = await Promise.all(
-      inMemoryMapKeys.map(async (email) => {
-        const response = await inMemoryRepository.getByEmail(email);
+      inMemoryMapKeys.map(async (id) => {
+        const response = await inMemoryRepository.getByID(id);
         if (User.isUser(response)) return response;
         registrationError = response;
       })
