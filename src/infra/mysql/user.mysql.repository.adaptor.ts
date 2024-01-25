@@ -2,6 +2,11 @@ import type { UserRepositoryPort } from "@/application/ports/user.repository.por
 import type { Email } from "@/types/super-types";
 import type * as mysql from "mysql2/promise";
 import { User } from "@/domain/user";
+import type { NetworkError } from "@/application/errors/network";
+import {
+  HTTPNetworkError,
+  NetworkUnspecifiedError,
+} from "@/application/errors/network";
 import {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
@@ -26,26 +31,40 @@ const GET_USER_BY_EMAIL =
 export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly pool: mysql.Pool) {}
 
-  async create(user: User): Promise<void | ResourceAlreadyExistsError> {
+  async create(
+    user: User
+  ): Promise<void | NetworkError | ResourceAlreadyExistsError> {
     const { email, firstName, lastName, password } = user.data;
 
     return this.pool
       .execute<mysql.ResultSetHeader>(REGISTER_USER_QUERY, [
-      email,
-      firstName,
-      lastName,
-      password,
+        email,
+        firstName,
+        lastName,
+        password,
       ])
       .then(() => {})
       .catch((error) => {
         switch (error.code) {
           case "ER_DUP_ENTRY":
             return ResourceAlreadyExistsError([email]);
+          case "ECONNREFUSED":
+            return HTTPNetworkError({
+              errorCode: 503,
+              reason: "database not available",
+              rawMessage: error,
+            });
+          default:
+            return NetworkUnspecifiedError(
+              "an unspecified error occured while registering user"
+            );
         }
       });
   }
 
-  async getByEmail(userEmail: Email): Promise<User | ResourceNotFoundError> {
+  async getByEmail(
+    userEmail: Email
+  ): Promise<User | NetworkError | ResourceNotFoundError> {
     return this.pool.execute<MysqlUser[]>(GET_USER_BY_EMAIL, [userEmail]).then(
       ([rows]) => {
         if (rows.length === 0) return ResourceNotFoundError(userEmail);
@@ -72,7 +91,18 @@ export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
 
         return user;
       },
-      (error) => error
+      (error) => {
+        if (error.code === "ECONNREFUSED")
+          return HTTPNetworkError({
+            errorCode: 503,
+            reason: "database not available",
+            rawMessage: error,
+          });
+
+        return NetworkUnspecifiedError(
+          "an unspecified error occured while fetching user"
+        );
+      }
     );
   }
 }

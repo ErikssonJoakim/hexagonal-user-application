@@ -11,6 +11,7 @@ import type { Email } from "@/types/super-types";
 import type { User } from "@/domain/user";
 import * as mysql from "mysql2/promise";
 import { config } from "@/lib/config";
+import type { NetworkError } from "@/application/errors/network";
 import type {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
@@ -54,8 +55,10 @@ const registerUserUseCase = new RegisterUserUseCase(
 type UserAPI = {
   register: (
     registerUserCommand: RegisterUserCommand
-  ) => Promise<void | ResourceAlreadyExistsError>;
-  getByEmail: (email: Email) => Promise<User | ResourceNotFoundError>;
+  ) => Promise<void | NetworkError | ResourceAlreadyExistsError>;
+  getByEmail: (
+    email: Email
+  ) => Promise<User | NetworkError | ResourceNotFoundError>;
 };
 
 export type Context = {
