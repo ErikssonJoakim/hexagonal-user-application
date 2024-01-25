@@ -32,7 +32,6 @@ export class RegisterUserUseCase {
         lastName,
         password,
         createdAt: this.dateProvider.getNow(),
-        updatedAt: undefined,
       })
     );
   }

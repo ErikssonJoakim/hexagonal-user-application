@@ -7,7 +7,7 @@ type UserData = {
   lastName: string;
   password: Password;
   createdAt: Date;
-  updatedAt: Date | undefined;
+  updatedAt?: Date;
 };
 
 export class User {

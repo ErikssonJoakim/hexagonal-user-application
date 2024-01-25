@@ -18,7 +18,6 @@ describe("Feature: Register user", () => {
     lastName: "Dorian",
     password: "eagle",
     createdAt: new Date("2024-01-20T22:08:10.000Z"),
-    updatedAt: undefined,
   });
 
   const userRegistrationInput1: RegisterUserCommand = {
