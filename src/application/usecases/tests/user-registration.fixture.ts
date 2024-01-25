@@ -1,20 +1,32 @@
-import { UserInMemoryRepository } from "@/infra/user.inmemory.repository";
+import type { ResourceNotFoundError } from "@/application/errors/resource";
+import type { SerializationError } from "@/application/errors/serialization";
+import type { ResourceAlreadyExistsError } from "@/application/errors/resource";
+import { isResourceAlreadyExistsError } from "@/application/errors/resource";
 import type { RegisterUserCommand } from "@/application/usecases/register-user.usecase";
 import { RegisterUserUseCase } from "@/application/usecases/register-user.usecase";
+import type { InMemoryUser } from "@/infra/user.inmemory.repository";
+import { UserInMemoryRepository } from "@/infra/user.inmemory.repository";
 import { StubDateProvider } from "@/infra/stub-date-provider";
 import { StubIdProvider } from "@/infra/stub-id-provider";
-import type { User } from "@/domain/user";
+import { User } from "@/domain/user";
 
-type Fixture = {
+export type RegisterUserFixture = {
   givenNowIs: (now: Date) => void;
-  givenRepositoryIsPopulatedWith: (users: User[]) => void;
+  givenRepositoryIsPopulatedWith: (users: InMemoryUser[]) => void;
   whenUserRegisters: (
     registerUserCommand: RegisterUserCommand
   ) => Promise<void>;
-  thenRegisteredUserShouldBe: (expectedUser: User | null) => Promise<void>;
+  thenRegisteredUsersShouldBe: (expectedRegisteredUsers: User[]) => void;
+  thenErrorShouldBe: (error?: ResourceAlreadyExistsError) => void;
 };
 
-export const createFixture = (): Fixture => {
+// eslint-disable-next-line max-lines-per-function
+export const createRegisterUserFixture = (): RegisterUserFixture => {
+  let registrationError:
+    | undefined
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+    | SerializationError = undefined;
   const inMemoryRepository = new UserInMemoryRepository();
   const idProvider = new StubIdProvider();
   const dateProvider = new StubDateProvider();
@@ -24,12 +36,12 @@ export const createFixture = (): Fixture => {
     dateProvider
   );
 
-  const givenRepositoryIsPopulatedWith = (users: User[]): void => {
-    idProvider.id = "1";
-    users.forEach((user) => {
-      inMemoryRepository.create(user);
-      idProvider.id = (idProvider.getId() + 1).toString();
+  const givenRepositoryIsPopulatedWith = (users: InMemoryUser[]): void => {
+    users.forEach((inMemoryUser) => {
+      inMemoryRepository.users.set(inMemoryUser.email, inMemoryUser);
     });
+
+    idProvider.id = (users.length + 1).toString();
   };
 
   const givenNowIs = (now: Date): void => {
@@ -39,21 +51,38 @@ export const createFixture = (): Fixture => {
   const whenUserRegisters = async (
     registerUserCommand: RegisterUserCommand
   ): Promise<void> => {
-    registerUserUseCase.handle(registerUserCommand);
+    await registerUserUseCase.handle(registerUserCommand).then((error) => {
+      if (isResourceAlreadyExistsError(error)) registrationError = error;
+    });
   };
 
-  const thenRegisteredUserShouldBe = async (
-    expectedUser: User | null
+  const thenRegisteredUsersShouldBe = async (
+    expectedRegisteredUsers: User[]
   ): Promise<void> => {
-    const user =
-      expectedUser && (await inMemoryRepository.getByEmail(expectedUser.email));
-    expect(user).toStrictEqual(expectedUser);
+    const inMemoryMapKeys = [...inMemoryRepository.users.keys()];
+
+    const registeredUsers = await Promise.all(
+      inMemoryMapKeys.map(async (email) => {
+        const response = await inMemoryRepository.getByEmail(email);
+        if (User.isUser(response)) return response;
+        registrationError = response;
+      })
+    );
+
+    expect(registeredUsers).toStrictEqual(expectedRegisteredUsers);
+  };
+
+  const thenErrorShouldBe = (
+    expectedError?: ResourceAlreadyExistsError
+  ): void => {
+    expect(registrationError).toStrictEqual(expectedError);
   };
 
   return {
     givenNowIs,
     givenRepositoryIsPopulatedWith,
     whenUserRegisters,
-    thenRegisteredUserShouldBe,
+    thenRegisteredUsersShouldBe,
+    thenErrorShouldBe,
   };
 };
