@@ -4,6 +4,7 @@ import {
 } from "@/application/errors/resource";
 import type { Context } from "@/apps/graphql/index";
 import type { MutationResolvers } from "@/apps/graphql/schema/types.generated";
+import { User } from "@/domain/user";
 import { GraphQLError } from "graphql";
 
 export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
@@ -24,7 +25,7 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
   });
 
   const user = await getByEmail(_arg.input.email).then((response) => {
-    if (user) return response;
+    if (User.isUser(response)) return response;
     switch (response._tag) {
       case "resource-not-found": {
         throw new GraphQLError(
@@ -35,7 +36,7 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
     }
   });
 
-  if (user) {
+  if (User.isUser(user)) {
     const { id, email, firstName, lastName, password, createdAt, updatedAt } =
       user;
 

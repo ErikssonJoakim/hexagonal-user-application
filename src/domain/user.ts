@@ -41,6 +41,18 @@ export class User {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static isUser(value: any): value is User {
+    return (
+      !!value.id &&
+      !!value.email &&
+      !!value.firstName &&
+      !!value.lastName &&
+      !!value.password &&
+      !!value.createdAt
+    );
+  }
+
   get id(): ID {
     return this._id;
   }

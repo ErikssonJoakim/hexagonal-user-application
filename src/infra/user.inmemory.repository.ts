@@ -1,7 +1,7 @@
 import { ResourceNotFoundError } from "@/application/errors/resource";
 import { ResourceAlreadyExistsError } from "@/application/errors/resource";
 import type { UserRepositoryPort } from "@/application/ports/user.repository.port";
-import type { User } from "@/domain/user";
+import { User } from "@/domain/user";
 
 export class UserInMemoryRepository implements UserRepositoryPort {
   users: Map<string, User> = new Map();
