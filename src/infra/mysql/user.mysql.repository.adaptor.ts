@@ -11,6 +11,7 @@ import {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
 } from "@/application/errors/resource";
+import { SerializationError } from "@/application/errors/serialization";
 
 interface MysqlUser extends mysql.RowDataPacket {
   user_id: string;
@@ -64,32 +65,38 @@ export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
 
   async getByEmail(
     userEmail: Email
-  ): Promise<User | NetworkError | ResourceNotFoundError> {
+  ): Promise<User | NetworkError | SerializationError | ResourceNotFoundError> {
     return this.pool.execute<MysqlUser[]>(GET_USER_BY_EMAIL, [userEmail]).then(
       ([rows]) => {
         if (rows.length === 0) return ResourceNotFoundError(userEmail);
 
-        const {
-          user_id,
-          email,
-          first_name,
-          last_name,
-          password,
-          created_at,
-          updated_at,
-        } = rows[0];
+        try {
+          const {
+            user_id,
+            email,
+            first_name,
+            last_name,
+            password,
+            created_at,
+            updated_at,
+          } = rows[0];
 
-        const user: User = User.fromData({
-          id: user_id,
-          email,
-          firstName: first_name,
-          lastName: last_name,
-          password,
-          createdAt: created_at,
-          updatedAt: updated_at ?? undefined,
-        });
+          const user: User = User.fromData({
+            id: user_id,
+            email,
+            firstName: first_name,
+            lastName: last_name,
+            password,
+            createdAt: created_at,
+            updatedAt: updated_at ?? undefined,
+          });
 
-        return user;
+          return user;
+        } catch (error) {
+          return SerializationError(
+            "user serialization from database unsuccessful"
+          );
+        }
       },
       (error) => {
         if (error.code === "ECONNREFUSED")

@@ -3,6 +3,10 @@ import {
   ResourceNotFoundError,
   presentResourceError,
 } from "@/application/errors/resource";
+import {
+  SerializationError,
+  presentSerializationError,
+} from "@/application/errors/serialization";
 import type { Context } from "@/apps/graphql/index";
 import type { MutationResolvers } from "@/apps/graphql/schema/types.generated";
 import { User } from "@/domain/user";
@@ -45,6 +49,12 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
         throw new GraphQLError(presentNetworkError(response), {
           extensions: { code: "UNSPECIFIED" },
         });
+      case "serialization": {
+        throw new GraphQLError(
+          presentSerializationError(SerializationError(response.reason)),
+          { extensions: { code: "INTERNAL_SERVER_ERROR" } }
+        );
+      }
       case "resource-not-found": {
         throw new GraphQLError(
           presentResourceError(ResourceNotFoundError(_arg.input.email)),

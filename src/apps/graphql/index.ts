@@ -12,6 +12,7 @@ import type { User } from "@/domain/user";
 import * as mysql from "mysql2/promise";
 import { config } from "@/lib/config";
 import type { NetworkError } from "@/application/errors/network";
+import type { SerializationError } from "@/application/errors/serialization";
 import type {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
@@ -58,7 +59,9 @@ type UserAPI = {
   ) => Promise<void | NetworkError | ResourceAlreadyExistsError>;
   getByEmail: (
     email: Email
-  ) => Promise<User | NetworkError | ResourceNotFoundError>;
+  ) => Promise<
+    User | NetworkError | SerializationError | ResourceNotFoundError
+  >;
 };
 
 export type Context = {
