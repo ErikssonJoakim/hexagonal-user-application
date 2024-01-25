@@ -2,6 +2,10 @@ import type { UserRepositoryPort } from "@/application/ports/user.repository.por
 import type { Email } from "@/types/super-types";
 import type * as mysql from "mysql2/promise";
 import { User } from "@/domain/user";
+import {
+  ResourceAlreadyExistsError,
+  ResourceNotFoundError,
+} from "@/application/errors/resource";
 
 interface MysqlUser extends mysql.RowDataPacket {
   user_id: string;
@@ -22,20 +26,30 @@ const GET_USER_BY_EMAIL =
 export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly pool: mysql.Pool) {}
 
-  async create(user: User): Promise<void> {
+  async create(user: User): Promise<void | ResourceAlreadyExistsError> {
     const { email, firstName, lastName, password } = user.data;
 
-    this.pool.execute<mysql.ResultSetHeader>(REGISTER_USER_QUERY, [
+    return this.pool
+      .execute<mysql.ResultSetHeader>(REGISTER_USER_QUERY, [
       email,
       firstName,
       lastName,
       password,
-    ]);
+      ])
+      .then(() => {})
+      .catch((error) => {
+        switch (error.code) {
+          case "ER_DUP_ENTRY":
+            return ResourceAlreadyExistsError([email]);
+        }
+      });
   }
 
-  async getByEmail(userEmail: Email): Promise<User | null> {
+  async getByEmail(userEmail: Email): Promise<User | ResourceNotFoundError> {
     return this.pool.execute<MysqlUser[]>(GET_USER_BY_EMAIL, [userEmail]).then(
       ([rows]) => {
+        if (rows.length === 0) return ResourceNotFoundError(userEmail);
+
         const {
           user_id,
           email,
