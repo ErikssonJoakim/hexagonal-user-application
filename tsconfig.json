@@ -21,5 +21,5 @@
       },
       "baseUrl": "."
     },
-    "include": ["src", "codegen.ts"],
+    "include": ["src"],
   } 

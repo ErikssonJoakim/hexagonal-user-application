@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen": "graphql-codegen --config ./src/apps/graphql/codegen.ts",
     "build": "tsc && yarn build:graphql && yarn build:react-app",
     "build:graphql": "esbuild src/apps/graphql/index.ts --bundle --platform=node --format=cjs --outfile=dist/graphql/index.cjs",
     "build:react-app": "vite build ./src/apps/react-app",
