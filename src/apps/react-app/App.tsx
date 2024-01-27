@@ -1,9 +1,12 @@
 import type { FC } from 'react'
+import { Router } from 'React-App/components/router/router'
 
 const App: FC = () => {
   return (
     <div style={{ height: 'inherit' }}>
-      <p>Hello world</p>
+      <div>
+        <Router />
+      </div>
     </div>
   )
 }
