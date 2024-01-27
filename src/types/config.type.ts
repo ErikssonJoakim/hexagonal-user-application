@@ -1,18 +1,18 @@
 type NodeConfig = {
-  env?: string;
-};
+  env?: string
+}
 
 type MysqlConfig = {
-  host?: string;
-  port?: string;
-  user?: string;
-  database?: string;
-  password?: string;
-};
+  host?: string
+  port?: string
+  user?: string
+  database?: string
+  password?: string
+}
 
 export type Config = {
-  node: NodeConfig;
+  node: NodeConfig
   dataSource: {
-    mysql: MysqlConfig;
-  };
-};
+    mysql: MysqlConfig
+  }
+}

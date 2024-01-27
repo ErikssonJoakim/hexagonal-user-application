@@ -42,7 +42,7 @@ yarn start:graphql
 
 Launch the following commands to set up the database
 
-### Configuration 
+### Configuration
 
 The database and server require certain environment variables to work. Go ahead and use the .env.example files provided by changing the file name to '.env'
 

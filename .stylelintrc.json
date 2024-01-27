@@ -1,19 +1,19 @@
 {
-    "extends": ["stylelint-config-sass-guidelines"],
-    "plugins": ["stylelint-scss"],
-    "rules": {
-      "color-hex-length": "long",
-      "scss/at-import-partial-extension-blacklist": null,
-      "max-nesting-depth": 9,
-      "scss/at-extend-no-missing-placeholder": null,
-      "color-no-invalid-hex": true,
-      "selector-max-compound-selectors": 8,
-      "selector-no-qualifying-type": [
-        true,
-        {
-          "ignore": ["class"]
-        }
-      ],
-      "selector-max-id": 1
-    }
+  "extends": ["stylelint-config-sass-guidelines"],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "color-hex-length": "long",
+    "scss/at-import-partial-extension-blacklist": null,
+    "max-nesting-depth": 9,
+    "scss/at-extend-no-missing-placeholder": null,
+    "color-no-invalid-hex": true,
+    "selector-max-compound-selectors": 8,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["class"]
+      }
+    ],
+    "selector-max-id": 1
   }
+}

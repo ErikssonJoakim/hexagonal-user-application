@@ -1,25 +1,25 @@
 {
-    "compilerOptions": {
-      "target": "ESNext",
-      "lib": ["DOM", "DOM.Iterable", "ESNext"],
-      "module": "ESNext",
-      "moduleResolution": "Node10",
-      "allowJs": false,
-      "skipLibCheck": true,   
-      "esModuleInterop": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "strictNullChecks": true,
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "jsx": "react-jsx",
-      "types": ["node", "jest"],
-      "paths": {
-        "@/*": ["./src/*"],
-        "React-App/*": ["./src/apps/react-app/*"]
-      },
-      "baseUrl": "."
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node10",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["node", "jest"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "React-App/*": ["./src/apps/react-app/*"]
     },
-    "include": ["src"],
-  } 
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}

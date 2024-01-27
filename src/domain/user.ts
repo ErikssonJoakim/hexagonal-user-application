@@ -1,14 +1,14 @@
-import type { Email, ID, Password } from "@/types/super-types";
+import type { Email, ID, Password } from '@/types/super-types'
 
 type UserData = {
-  id: ID;
-  email: Email;
-  firstName: string;
-  lastName: string;
-  password: Password;
-  createdAt: Date;
-  updatedAt?: Date;
-};
+  id: ID
+  email: Email
+  firstName: string
+  lastName: string
+  password: Password
+  createdAt: Date
+  updatedAt?: Date
+}
 
 export class User {
   constructor(
@@ -28,17 +28,9 @@ export class User {
     lastName,
     password,
     createdAt,
-    updatedAt,
-  }: User["data"]): User {
-    return new User(
-      id,
-      email,
-      firstName,
-      lastName,
-      password,
-      createdAt,
-      updatedAt
-    );
+    updatedAt
+  }: User['data']): User {
+    return new User(id, email, firstName, lastName, password, createdAt, updatedAt)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,35 +42,35 @@ export class User {
       !!value.lastName &&
       !!value.password &&
       !!value.createdAt
-    );
+    )
   }
 
   get id(): ID {
-    return this._id;
+    return this._id
   }
 
   get email(): Email {
-    return this._email;
+    return this._email
   }
 
   get firstName(): string {
-    return this._firstName;
+    return this._firstName
   }
 
   get lastName(): string {
-    return this._lastName;
+    return this._lastName
   }
 
   get password(): string {
-    return this._password;
+    return this._password
   }
 
   get createdAt(): Date {
-    return this._createdAt;
+    return this._createdAt
   }
 
   get updatedAt(): Date | undefined {
-    return this._updatedAt;
+    return this._updatedAt
   }
 
   get data(): UserData {
@@ -89,7 +81,7 @@ export class User {
       lastName: this.lastName,
       password: this.password,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    };
+      updatedAt: this.updatedAt
+    }
   }
 }

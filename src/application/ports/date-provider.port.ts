@@ -1,3 +1,3 @@
 export abstract class DateProviderPort {
-  abstract getNow(): Date;
+  abstract getNow(): Date
 }

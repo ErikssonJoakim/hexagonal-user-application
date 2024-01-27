@@ -1,9 +1,9 @@
-import "dotenv/config";
-import type { Config } from "@/types/config.type";
+import 'dotenv/config'
+import type { Config } from '@/types/config.type'
 
 export const config: Config = {
   node: {
-    env: process.env.NODE_ENV,
+    env: process.env.NODE_ENV
   },
   dataSource: {
     mysql: {
@@ -11,7 +11,7 @@ export const config: Config = {
       port: process.env.MYSQL_PORT,
       user: process.env.MYSQL_USER,
       database: process.env.MYSQL_DATABASE,
-      password: process.env.MYSQL_PASSWORD,
-    },
-  },
-};
+      password: process.env.MYSQL_PASSWORD
+    }
+  }
+}

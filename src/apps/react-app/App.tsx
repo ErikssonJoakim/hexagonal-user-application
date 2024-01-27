@@ -1,11 +1,11 @@
-import type { FC } from "react";
+import type { FC } from 'react'
 
 const App: FC = () => {
   return (
-    <div style={{ height: "inherit" }}>
+    <div style={{ height: 'inherit' }}>
       <p>Hello world</p>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
