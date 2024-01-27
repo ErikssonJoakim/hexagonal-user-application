@@ -1,3 +1,5 @@
+@import 'React-App/styles/mixins.scss';
+
 html,
 body {
   height: 100%;
@@ -15,4 +17,9 @@ h1,
 h2,
 h3 {
   margin: 0;
+}
+
+.page-layout {
+  @include twelve-column-layout;
+  height: inherit;
 }

@@ -1,0 +1,52 @@
+@mixin use-breakpoints($breakpoints) {
+  @each $breakpoint in $breakpoints {
+    @if $breakpoint == 'mobile' {
+      @media (max-width: 595px) {
+        @content;
+      }
+    }
+    @if $breakpoint == 'tablet' {
+      @media (min-width: 596px) and (max-width: 1439px) {
+        @content;
+      }
+    }
+    @if $breakpoint == 'desktop' {
+      @media (min-width: 1440px) and (max-width: 1919px) {
+        @content;
+      }
+    }
+    @if $breakpoint == 'large-desktop' {
+      @media (min-width: 1920px) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin grid-container($colsNb: 12, $colsSize: 1fr, $colGutter, $rowGutter: null) {
+  display: grid;
+  grid-template-columns: repeat($colsNb, $colsSize);
+  column-gap: $colGutter;
+  @if $rowGutter {
+    row-gap: $rowGutter;
+  }
+  @content;
+}
+
+@mixin twelve-column-layout {
+  @include use-breakpoints(('mobile')) {
+    @include grid-container($colsNb: 6, $colGutter: 16px);
+  }
+
+  @include use-breakpoints(('tablet')) {
+    @include grid-container($colsNb: 8, $colGutter: 16px);
+  }
+
+  @include use-breakpoints(('desktop')) {
+    @include grid-container($colGutter: 34px);
+  }
+
+  @include use-breakpoints(('large-desktop')) {
+    @include grid-container($colGutter: 48px);
+  }
+}

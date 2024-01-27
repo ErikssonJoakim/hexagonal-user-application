@@ -4,7 +4,7 @@ import { Router } from 'React-App/components/router/router'
 const App: FC = () => {
   return (
     <div style={{ height: 'inherit' }}>
-      <div>
+      <div className="page-layout">
         <Router />
       </div>
     </div>
