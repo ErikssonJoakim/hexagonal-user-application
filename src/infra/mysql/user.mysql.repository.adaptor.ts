@@ -18,7 +18,7 @@ interface MysqlUser extends mysql.RowDataPacket {
 }
 
 const REGISTER_USER_QUERY =
-  'INSERT INTO users(email, first_name, last_name, password) VALUES(?, ?, ?, ?);'
+  'INSERT INTO users(user_id, email, first_name, last_name, password, created_at) VALUES(?, ?, ?, ?, ?, ?);'
 
 const GET_USER_BY_ID =
   'SELECT user_id, email, first_name, last_name, password, created_at, updated_at FROM users WHERE user_id = ?;'
@@ -26,26 +26,40 @@ const GET_USER_BY_ID =
 export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly pool: mysql.Pool) {}
 
-  async create(user: User): Promise<ID | NetworkError | ResourceAlreadyExistsError> {
-    const { email, firstName, lastName, password } = user.data
-
+  async create({
+    id,
+    email,
+    firstName,
+    lastName,
+    password,
+    createdAt
+  }: User): Promise<ID | NetworkError | ResourceAlreadyExistsError> {
     return this.pool
-      .execute<mysql.ResultSetHeader>(REGISTER_USER_QUERY, [email, firstName, lastName, password])
-      .then(response => response[0].insertId.toString())
-      .catch(error => {
-        switch (error.code) {
-          case 'ER_DUP_ENTRY':
-            return ResourceAlreadyExistsError([email])
-          case 'ECONNREFUSED':
-            return HTTPNetworkError({
-              errorCode: 503,
-              reason: 'database not available',
-              rawMessage: error
-            })
-          default:
-            return NetworkUnspecifiedError('an unspecified error occured while registering user')
+      .execute<mysql.ResultSetHeader>(REGISTER_USER_QUERY, [
+        id,
+        email,
+        firstName,
+        lastName,
+        password,
+        createdAt
+      ])
+      .then(
+        () => id,
+        error => {
+          switch (error.code) {
+            case 'ER_DUP_ENTRY':
+              return ResourceAlreadyExistsError([email])
+            case 'ECONNREFUSED':
+              return HTTPNetworkError({
+                errorCode: 503,
+                reason: 'database not available',
+                rawMessage: error
+              })
+            default:
+              return NetworkUnspecifiedError('an unspecified error occured while registering user')
+          }
         }
-      })
+      )
   }
 
   async getByID(id: ID): Promise<User | NetworkError | SerializationError | ResourceNotFoundError> {

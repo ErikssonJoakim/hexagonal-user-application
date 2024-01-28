@@ -1,7 +1,7 @@
 USE test;
 
 CREATE TABLE IF NOT EXISTS users (
-    user_id INT(6) UNSIGNED NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
     email VARCHAR(80) NOT NULL UNIQUE,
     first_name VARCHAR(80) NOT NULL,
     last_name VARCHAR(80) NOT NULL,
