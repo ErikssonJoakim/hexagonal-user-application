@@ -1,6 +1,7 @@
 # Hexagonal User Application
 
 [![test](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/test.yml/badge.svg)](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/test.yml)
+[![lint](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/lint.yml/badge.svg)](https://github.com/ErikssonJoakim/hexagonal-user-application/actions/workflows/lint.yml)
 
 ## Install
 
