@@ -19,7 +19,7 @@ describe('Feature: Register user', () => {
     email: 'john.dorian@gmail.com',
     first_name: 'John',
     last_name: 'Dorian',
-    password: 'eagle',
+    password: 'sacred-Heart123',
     created_at: new Date('2024-01-20T22:08:10.000Z')
   }
 
@@ -28,7 +28,7 @@ describe('Feature: Register user', () => {
     email: 'john.dorian@gmail.com',
     firstName: 'John',
     lastName: 'Dorian',
-    password: 'eagle',
+    password: 'sacred-Heart123',
     createdAt: new Date('2024-01-20T22:08:10.000Z')
   })
 
@@ -36,7 +36,7 @@ describe('Feature: Register user', () => {
     email: 'john.dorian@gmail.com',
     firstName: 'John',
     lastName: 'Dorian',
-    password: 'eagle'
+    password: 'sacred-Heart123'
   }
 
   let fixture: RegisterUserFixture
