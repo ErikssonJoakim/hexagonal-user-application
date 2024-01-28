@@ -5,7 +5,7 @@ import { resolvers } from '@/apps/graphql/schema/resolvers.generated'
 import { MysqlUserRepositoryAdaptor } from '@/infra/mysql/user.mysql.repository.adaptor'
 import type { RegisterUserCommand } from '@/application/usecases/register-user.usecase'
 import { RegisterUserUseCase } from '@/application/usecases/register-user.usecase'
-import { DummyIdProvider } from '@/infra/dummy-id-provider'
+import { RealIdProvider } from '@/infra/real-id-provider'
 import { RealDateProvider } from '@/infra/real-date-provider'
 import type { ID } from '@/types/super-types'
 import type { User } from '@/domain/user'
@@ -37,14 +37,14 @@ const mysqlPoolOptions = {
   keepAliveInitialDelay: 0
 }
 
-const dummyIdProvider = new DummyIdProvider()
+const realIdProvider = new RealIdProvider()
 const realDateProvider = new RealDateProvider()
 
 const mysqlRepository = new MysqlUserRepositoryAdaptor(mysql.createPool(mysqlPoolOptions))
 
 const registerUserUseCase = new RegisterUserUseCase(
   mysqlRepository,
-  dummyIdProvider,
+  realIdProvider,
   realDateProvider
 )
 
