@@ -1,7 +1,7 @@
 import type { RegisterUserCommand } from '@/application/usecases/register-user.usecase'
 import type { RegisterUserFixture } from '@/application/usecases/tests/user-registration.fixture'
 import { createRegisterUserFixture } from '@/application/usecases/tests/user-registration.fixture'
-import { ResourceAlreadyExistsError } from '@/application/errors/resource'
+import { ResourceAlreadyExistsError } from '@/shared/errors/resource'
 import type { InMemoryUser } from '@/infra/user.inmemory.repository'
 import { User } from '@/domain/user'
 

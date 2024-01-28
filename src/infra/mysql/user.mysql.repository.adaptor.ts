@@ -2,10 +2,10 @@ import type { UserRepositoryPort } from '@/application/ports/user.repository.por
 import type { ID } from '@/types/super-types'
 import type * as mysql from 'mysql2/promise'
 import { User } from '@/domain/user'
-import type { NetworkError } from '@/application/errors/network'
-import { HTTPNetworkError, NetworkUnspecifiedError } from '@/application/errors/network'
-import { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/application/errors/resource'
-import { SerializationError } from '@/application/errors/serialization'
+import type { NetworkError } from '@/shared/errors/network'
+import { HTTPNetworkError, NetworkUnspecifiedError } from '@/shared/errors/network'
+import { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/shared/errors/resource'
+import { SerializationError } from '@/shared/errors/serialization'
 
 interface MysqlUser extends mysql.RowDataPacket {
   user_id: string

@@ -1,9 +1,9 @@
 import type { QueryResolvers } from '@/apps/graphql/schema/types.generated'
 import type { Context } from '@/apps/graphql'
 import { GraphQLError } from 'graphql'
-import { SerializationError, presentSerializationError } from '@/application/errors/serialization'
-import { ResourceNotFoundError, presentResourceError } from '@/application/errors/resource'
-import { presentNetworkError } from '@/application/errors/network'
+import { SerializationError, presentSerializationError } from '@/shared/errors/serialization'
+import { ResourceNotFoundError, presentResourceError } from '@/shared/errors/resource'
+import { presentNetworkError } from '@/shared/errors/network'
 import { User } from '@/domain/user'
 
 export const user: NonNullable<QueryResolvers['user']> = async (_parent, _arg, _ctx: Context) => {

@@ -5,7 +5,7 @@ export const ResourceAlreadyExistsError = (resourceIds: string[]) =>
   }) as const
 
 /**
- *  Error when an id of a resource to be stored already exists in the domain.
+ *  Error when an id of a resource to be stored already exists.
  */
 export type ResourceAlreadyExistsError = ReturnType<typeof ResourceAlreadyExistsError>
 
@@ -16,7 +16,7 @@ export const ResourceNotFoundError = (resourceId: string) =>
   }) as const
 
 /**
- *  Error when the id of a resource is not found in the domain.
+ *  Error when the id of a resource is not found.
  */
 export type ResourceNotFoundError = ReturnType<typeof ResourceNotFoundError>
 

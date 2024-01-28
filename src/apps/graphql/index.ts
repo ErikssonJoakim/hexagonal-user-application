@@ -11,12 +11,9 @@ import type { ID } from '@/types/super-types'
 import type { User } from '@/domain/user'
 import * as mysql from 'mysql2/promise'
 import { config } from '@/lib/config'
-import type { NetworkError } from '@/application/errors/network'
-import type { SerializationError } from '@/application/errors/serialization'
-import type {
-  ResourceAlreadyExistsError,
-  ResourceNotFoundError
-} from '@/application/errors/resource'
+import type { NetworkError } from '@/shared/errors/network'
+import type { SerializationError } from '@/shared/errors/serialization'
+import type { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/shared/errors/resource'
 
 const {
   node: { env },
