@@ -35,8 +35,16 @@ yarn test
 
 Launch the app of your choosing:
 
+GraphQL API (dependant on the MySQL database)
+
 ```sh
 yarn start:graphql
+```
+
+React web application (dependant on the GraphQL API)
+
+```sh
+yarn start:react-app
 ```
 
 ### Setting up the MySQL database
