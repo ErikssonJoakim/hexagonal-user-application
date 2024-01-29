@@ -69,7 +69,7 @@ export const Registration: FC = () => {
         validate={handleValidation}
         validateOnChange
       >
-        <Form>
+        <Form className="react-app-registration-page-form">
           <label htmlFor="email">Email</label>
           <Field id="email" name="email" placeholder="alice@martin.com" type="email" />
           <ErrorMessage name="email" />
