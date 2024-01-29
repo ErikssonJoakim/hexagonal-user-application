@@ -10,3 +10,8 @@ export const ValidationNotConformError = (ruleMessages: string[]) =>
 export type ValidationNotConformError = ReturnType<typeof ValidationNotConformError>
 
 export type ValidationError = ValidationNotConformError
+
+export const isValidationNotConformError = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any
+): error is ValidationNotConformError => !!error && error._tag === 'value-not-conform'
