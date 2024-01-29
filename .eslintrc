@@ -25,7 +25,11 @@
     "import/resolver": {
       "typescript": {},
       "alias": {
-        "map": [["@", "./src"],["React-App", "./src/apps/react-app"]]
+        "map": [
+          ["@", "./src"],
+          ["React-App", "./src/apps/react-app"],
+          ["Design-System", "./src/apps/design-system"]
+        ]
       }
     }
   },

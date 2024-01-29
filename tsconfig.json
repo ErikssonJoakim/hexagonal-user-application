@@ -17,7 +17,8 @@
     "types": ["node", "jest"],
     "paths": {
       "@/*": ["./src/*"],
-      "React-App/*": ["./src/apps/react-app/*"]
+      "React-App/*": ["./src/apps/react-app/*"],
+      "Design-System/*": ["./src/apps/design-system/*"]
     },
     "baseUrl": "."
   },
