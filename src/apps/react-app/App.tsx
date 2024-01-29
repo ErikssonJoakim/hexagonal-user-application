@@ -8,7 +8,7 @@ const App: FC = () => {
 
   return (
     <div style={{ height: 'inherit' }}>
-      <div className="page-layout">
+      <div className="react-app-page-layout">
         <UserContext.Provider value={context}>
           <Router />
         </UserContext.Provider>

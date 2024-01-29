@@ -62,7 +62,7 @@ export const Registration: FC = () => {
   )
 
   return (
-    <div className="registration-page-main">
+    <div className="react-app-registration-page-main">
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
