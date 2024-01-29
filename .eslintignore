@@ -1,1 +1,2 @@
 **/graphql/**/*.generated.**
+jest.config.cjs
