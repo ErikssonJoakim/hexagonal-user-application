@@ -51,6 +51,7 @@
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.17",
     "classnames": "^2.5.1",
+    "cypress": "^13.6.3",
     "esbuild": "^0.19.11",
     "eslint": "^8.56.0",
     "eslint-import-resolver-alias": "^1.1.2",
