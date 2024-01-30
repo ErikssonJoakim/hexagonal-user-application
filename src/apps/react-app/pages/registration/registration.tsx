@@ -55,8 +55,24 @@ export const Registration: FC = () => {
   )
 
   const handleSubmit: RegistrationSubmitHandler = useCallback(
-    async input => {
-      userContext.register(input)
+    async (input, { setStatus }) => {
+      const registerResponse = await userContext.register(input)
+
+      if (typeof registerResponse === 'string') {
+        setStatus('User registered')
+      } else {
+        switch (registerResponse._tag) {
+          case 'network-http':
+          case 'network-unspecified':
+            {
+              setStatus('Registration failed, please try another time')
+            }
+            break
+          case 'resource-already-exists': {
+            setStatus('Email already registered')
+          }
+        }
+      }
     },
     [userContext]
   )
@@ -69,25 +85,31 @@ export const Registration: FC = () => {
         validate={handleValidation}
         validateOnChange
       >
-        <Form className="react-app-registration-page-form">
-          <label htmlFor="email">Email</label>
-          <Field id="email" name="email" placeholder="alice@martin.com" type="email" />
-          <ErrorMessage name="email" />
+        {({ status }) =>
+          status ? (
+            <p className="react-app-registration-page-form-status">{status}</p>
+          ) : (
+            <Form className="react-app-registration-page-form">
+              <label htmlFor="email">Email</label>
+              <Field id="email" name="email" placeholder="alice@martin.com" type="email" />
+              <ErrorMessage name="email" />
 
-          <label htmlFor="firstName">First Name</label>
-          <Field id="firstName" name="firstName" placeholder="Alice" />
-          <ErrorMessage name="firstName" />
+              <label htmlFor="firstName">First Name</label>
+              <Field id="firstName" name="firstName" placeholder="Alice" />
+              <ErrorMessage name="firstName" />
 
-          <label htmlFor="lastName">Last Name</label>
-          <Field id="lastName" name="lastName" placeholder="Martin" />
-          <ErrorMessage name="lastName" />
+              <label htmlFor="lastName">Last Name</label>
+              <Field id="lastName" name="lastName" placeholder="Martin" />
+              <ErrorMessage name="lastName" />
 
-          <label htmlFor="password">Password</label>
-          <Field id="password" name="password" type="password" />
-          <ErrorMessage name="password" />
+              <label htmlFor="password">Password</label>
+              <Field id="password" name="password" type="password" />
+              <ErrorMessage name="password" />
 
-          <button type="submit">Submit</button>
-        </Form>
+              <button type="submit">Submit</button>
+            </Form>
+          )
+        }
       </Formik>
     </div>
   )
