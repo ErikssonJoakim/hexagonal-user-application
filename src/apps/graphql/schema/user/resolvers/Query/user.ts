@@ -33,17 +33,15 @@ export const user: NonNullable<QueryResolvers['user']> = async (_parent, _arg, _
     }
   })
 
-  if (User.isUser(user)) {
-    const { id, email, firstName, lastName, password, createdAt, updatedAt } = user
+  const { id, email, firstName, lastName, password, createdAt, updatedAt } = user
 
-    return {
-      user_id: id,
-      email,
-      first_name: firstName,
-      last_name: lastName,
-      password,
-      created_at: createdAt,
-      updated_at: updatedAt
-    }
+  return {
+    user_id: id,
+    email,
+    first_name: firstName,
+    last_name: lastName,
+    password,
+    created_at: createdAt,
+    updated_at: updatedAt
   }
 }
