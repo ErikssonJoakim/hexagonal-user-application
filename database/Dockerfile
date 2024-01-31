@@ -1,4 +1,4 @@
-FROM arm64v8/mysql:8.0.32
+FROM mysql:8.3
 
 COPY /config/init-db /docker-entrypoint-initdb.d
 
