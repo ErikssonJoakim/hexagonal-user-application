@@ -3,4 +3,18 @@
 .react-app-home-page-main {
   @include grid-item($colStart: 1, $colEnd: -1, $rowStart: auto, $rowEnd: auto);
   @include twelve-column-layout;
+
+  .react-app-home-page-logout-welcome {
+    @include columns-with-gap($gap: 10px);
+    @include grid-item($colStart: 6, $colEnd: -6, $rowStart: auto, $rowEnd: auto);
+    align-self: center;
+
+    @include use-breakpoints(('mobile')) {
+      @include grid-item($colStart: 3, $colEnd: -3, $rowStart: auto, $rowEnd: auto);
+    }
+
+    @include use-breakpoints(('tablet')) {
+      @include grid-item($colStart: 4, $colEnd: -4, $rowStart: auto, $rowEnd: auto);
+    }
+  }
 }
