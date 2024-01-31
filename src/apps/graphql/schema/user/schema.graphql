@@ -1,5 +1,6 @@
 extend type Query {
   user(id: ID!): User
+  userLogin(input: UserCredentials!): User
 }
 
 extend type Mutation {
@@ -13,6 +14,14 @@ input UserRegistration {
   email: String!
   firstName: String!
   lastName: String!
+  password: String!
+}
+
+"""
+Input necessary to verify user.
+"""
+input UserCredentials {
+  email: String!
   password: String!
 }
 

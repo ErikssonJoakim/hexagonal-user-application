@@ -14,6 +14,8 @@ import { config } from '@/lib/config'
 import type { NetworkError } from '@/shared/errors/network'
 import type { SerializationError } from '@/shared/errors/serialization'
 import type { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/shared/errors/resource'
+import type { LoginUserCommand } from '@/application/usecases/login-user.usecase'
+import { LoginUserUseCase } from '@/application/usecases/login-user.usecase'
 
 const {
   node,
@@ -42,6 +44,7 @@ const realIdProvider = new RealIdProvider()
 const realDateProvider = new RealDateProvider()
 
 const mysqlRepository = new MysqlUserRepositoryAdaptor(mysql.createPool(mysqlPoolOptions))
+const loginUserUseCase = new LoginUserUseCase(mysqlRepository)
 
 const registerUserUseCase = new RegisterUserUseCase(
   mysqlRepository,
@@ -53,6 +56,9 @@ type UserAPI = {
   register: (
     registerUserCommand: RegisterUserCommand
   ) => Promise<ID | NetworkError | ResourceAlreadyExistsError>
+  login: (
+    loginUserCommand: LoginUserCommand
+  ) => Promise<User | SerializationError | ResourceNotFoundError | NetworkError>
   getByID: (id: ID) => Promise<User | NetworkError | SerializationError | ResourceNotFoundError>
 }
 
@@ -75,6 +81,7 @@ const main = async (): Promise<void> => {
       dataSources: {
         userAPI: {
           register: registerUserUseCase.handle.bind(registerUserUseCase),
+          login: loginUserUseCase.handle.bind(loginUserUseCase),
           getByID: mysqlRepository.getByID.bind(mysqlRepository)
         }
       }

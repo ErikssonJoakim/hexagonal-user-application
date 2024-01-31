@@ -31,11 +31,17 @@ export type MutationcreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
+  userLogin?: Maybe<User>;
 };
 
 
 export type QueryuserArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryuserLoginArgs = {
+  input: UserCredentials;
 };
 
 /** User is the identity of a user. */
@@ -48,6 +54,12 @@ export type User = {
   lastName: Scalars['String']['output'];
   password: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+/** Input necessairy to verify user. */
+export type UserCredentials = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 /** Input necessairy to create a user. */
@@ -135,6 +147,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   User: ResolverTypeWrapper<UserMapper>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UserCredentials: UserCredentials;
   UserRegistration: UserRegistration;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
@@ -147,6 +160,7 @@ export type ResolversParentTypes = {
   ID: Scalars['ID']['output'];
   User: UserMapper;
   String: Scalars['String']['output'];
+  UserCredentials: UserCredentials;
   UserRegistration: UserRegistration;
   Boolean: Scalars['Boolean']['output'];
 };
@@ -161,6 +175,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
+  userLogin?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserLoginArgs, 'input'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

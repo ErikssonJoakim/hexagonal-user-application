@@ -1,0 +1,51 @@
+import { User } from '@/domain/user'
+import type { QueryResolvers } from '@/apps/graphql/schema/types.generated'
+import type { Context } from '@/apps/graphql'
+import { SerializationError, presentSerializationError } from '@/shared/errors/serialization'
+import { ResourceNotFoundError, presentResourceError } from '@/shared/errors/resource'
+import { presentNetworkError } from '@/shared/errors/network'
+import { GraphQLError } from 'graphql'
+
+export const userLogin: NonNullable<QueryResolvers['userLogin']> = async (
+  _parent,
+  _arg,
+  _ctx: Context
+) => {
+  const { login } = _ctx.dataSources.userAPI
+
+  const user = await login(_arg.input).then(response => {
+    if (User.isUser(response)) return response
+    switch (response._tag) {
+      case 'network-http':
+        throw new GraphQLError(presentNetworkError(response), {
+          extensions: { code: 'SERVICE_UNAVAILABLE' }
+        })
+      case 'network-unspecified':
+        throw new GraphQLError(presentNetworkError(response), {
+          extensions: { code: 'UNSPECIFIED' }
+        })
+      case 'serialization': {
+        throw new GraphQLError(presentSerializationError(SerializationError(response.reason)), {
+          extensions: { code: 'INTERNAL_SERVER_ERROR' }
+        })
+      }
+      case 'resource-not-found': {
+        throw new GraphQLError(presentResourceError(ResourceNotFoundError([_arg.input.email])), {
+          extensions: { code: 'NOT_FOUND' }
+        })
+      }
+    }
+  })
+
+  const { id, email, firstName, lastName, password, createdAt, updatedAt } = user
+
+  return {
+    user_id: id,
+    email,
+    first_name: firstName,
+    last_name: lastName,
+    password,
+    created_at: createdAt,
+    updated_at: updatedAt
+  }
+}
