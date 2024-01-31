@@ -71,7 +71,7 @@ export class UserInMemoryRepository implements UserRepositoryPort {
           resolve(SerializationError('User serialization from <in memory repository> unsuccessful'))
         }
       } else {
-        resolve(ResourceNotFoundError(id))
+        resolve(ResourceNotFoundError([id]))
       }
     })
   }

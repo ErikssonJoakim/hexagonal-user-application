@@ -65,7 +65,7 @@ export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   async getByID(id: ID): Promise<User | NetworkError | SerializationError | ResourceNotFoundError> {
     return this.pool.execute<MysqlUser[]>(GET_USER_BY_ID, [id]).then(
       ([rows]) => {
-        if (rows.length === 0) return ResourceNotFoundError(id)
+        if (rows.length === 0) return ResourceNotFoundError([id])
 
         try {
           const { user_id, email, first_name, last_name, password, created_at, updated_at } =

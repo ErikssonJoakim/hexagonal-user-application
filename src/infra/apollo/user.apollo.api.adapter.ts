@@ -119,7 +119,7 @@ export class ApolloUserRepositoryAdaptor implements UserRepositoryPort {
             case 'INTERNAL_SERVER_ERROR':
               return NetworkUnspecifiedError('server error while treating request ')
             case 'NOT_FOUND':
-              return ResourceNotFoundError('Unable to retrieve user by id')
+              return ResourceNotFoundError(['Unable to retrieve user by id'])
             case 'UNSPECIFIED':
             default:
               return NetworkUnspecifiedError('an unspecified error occured while fetching user')

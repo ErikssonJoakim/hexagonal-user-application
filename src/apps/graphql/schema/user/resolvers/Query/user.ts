@@ -26,7 +26,7 @@ export const user: NonNullable<QueryResolvers['user']> = async (_parent, _arg, _
         })
       }
       case 'resource-not-found': {
-        throw new GraphQLError(presentResourceError(ResourceNotFoundError(_arg.id)), {
+        throw new GraphQLError(presentResourceError(ResourceNotFoundError([_arg.id])), {
           extensions: { code: 'NOT_FOUND' }
         })
       }

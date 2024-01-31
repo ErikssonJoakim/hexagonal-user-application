@@ -1,4 +1,4 @@
-export const ResourceAlreadyExistsError = (resourceIds: string[]) =>
+export const ResourceAlreadyExistsError = (resourceIds: [string, ...string[]]) =>
   ({
     _tag: 'resource-already-exists',
     resourceIds
@@ -9,10 +9,10 @@ export const ResourceAlreadyExistsError = (resourceIds: string[]) =>
  */
 export type ResourceAlreadyExistsError = ReturnType<typeof ResourceAlreadyExistsError>
 
-export const ResourceNotFoundError = (resourceId: string) =>
+export const ResourceNotFoundError = (resourceIds: [string, ...string[]]) =>
   ({
     _tag: 'resource-not-found',
-    resourceId
+    resourceIds
   }) as const
 
 /**
@@ -30,7 +30,7 @@ export const presentResourceError = (error: ResourceError): string => {
       }: Failed to store resource with conflicting identifiers [${error.resourceIds.join(', ')}].`
     }
     case 'resource-not-found': {
-      return `Error ${error._tag}: Failed to handle resource with identifier '${error.resourceId}' since it does not exist.`
+      return `Error ${error._tag}: Failed to handle resource with identifiers [${error.resourceIds.join(', ')}] since ${error.resourceIds.length > 1 ? "they don't" : 'it does'} not exist.`
     }
   }
 }

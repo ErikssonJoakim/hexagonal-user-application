@@ -51,7 +51,7 @@ export const createUser: NonNullable<MutationResolvers['createUser']> = async (
         })
       }
       case 'resource-not-found': {
-        throw new GraphQLError(presentResourceError(ResourceNotFoundError(_arg.input.email)), {
+        throw new GraphQLError(presentResourceError(ResourceNotFoundError([_arg.input.email])), {
           extensions: { code: 'NOT_FOUND' }
         })
       }
