@@ -31,6 +31,10 @@ Test the project with the following command:
 yarn test
 ```
 
+This will build the project and launch `test:jest` and `test:e2e`.
+
+> The e2e test launches the dockerized mysql database together with the graphql api service and the react app, before running the cypress e2e tests. Once completed it shuts down the database and deletes any data that was saved.
+
 ### Launch
 
 Launch the app of your choosing:
