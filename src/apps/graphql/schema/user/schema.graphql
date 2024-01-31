@@ -7,7 +7,7 @@ extend type Mutation {
 }
 
 """
-Input necessairy to create a user.
+Input necessary to create a user.
 """
 input UserRegistration {
   email: String!
