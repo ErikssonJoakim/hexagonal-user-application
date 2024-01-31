@@ -10,9 +10,14 @@ type MysqlConfig = {
   password?: string
 }
 
+type GraphqlConfig = {
+  port?: string
+}
+
 export type Config = {
-  node: NodeConfig
+  node?: NodeConfig
   dataSource: {
     mysql: MysqlConfig
+    graphql: GraphqlConfig
   }
 }

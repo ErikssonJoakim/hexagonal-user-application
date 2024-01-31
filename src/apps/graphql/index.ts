@@ -16,9 +16,10 @@ import type { SerializationError } from '@/shared/errors/serialization'
 import type { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/shared/errors/resource'
 
 const {
-  node: { env },
+  node,
   dataSource: {
-    mysql: { host, port, user, database, password }
+    mysql: { host, port, user, database, password },
+    graphql
   }
 } = config
 
@@ -64,12 +65,12 @@ export type Context = {
 const server = new ApolloServer<Context>({
   typeDefs,
   resolvers,
-  nodeEnv: env
+  nodeEnv: node?.env
 })
 
 const main = async (): Promise<void> => {
   const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: Number(graphql.port) },
     context: async () => ({
       dataSources: {
         userAPI: {
