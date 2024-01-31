@@ -1,0 +1,18 @@
+@import 'React-App/styles/mixins.scss';
+
+.react-app-login-form-main {
+  align-self: center;
+  @include grid-item($colStart: 6, $colEnd: -6, $rowStart: auto, $rowEnd: auto);
+
+  @include use-breakpoints(('mobile')) {
+    @include grid-item($colStart: 3, $colEnd: -3, $rowStart: auto, $rowEnd: auto);
+  }
+
+  @include use-breakpoints(('tablet')) {
+    @include grid-item($colStart: 4, $colEnd: -4, $rowStart: auto, $rowEnd: auto);
+  }
+
+  .react-app-login-page-form {
+    @include columns-with-gap($gap: 10px);
+  }
+}

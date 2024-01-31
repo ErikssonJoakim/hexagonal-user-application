@@ -8,6 +8,7 @@ import { User, UserEmail } from '@/domain/user'
 import { isValidationNotConformError } from '@/shared/errors/validation'
 import { UserContext } from 'React-App/contexts/user.context'
 import type { LoginUserCommand } from '@/application/usecases/login-user.usecase'
+import './loginForm.scss'
 
 type LoginCredentials = LoginUserCommand
 

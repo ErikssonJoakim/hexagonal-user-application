@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { UserEmail, UserFirstName, UserLastName, UserPassword } from '@/domain/user'
 import { isValidationNotConformError } from '@/shared/errors/validation'
 import { UserContext } from '../../contexts/user.context'
+import './registration.scss'
 
 type RegistrationInput = RegisterUserCommand
 
@@ -79,38 +80,42 @@ export const Registration: FC = () => {
 
   return (
     <div className="react-app-registration-page-main">
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validate={handleValidation}
-        validateOnChange
-      >
-        {({ status }) =>
-          status ? (
-            <p className="react-app-registration-page-form-status">{status}</p>
-          ) : (
-            <Form className="react-app-registration-page-form">
-              <label htmlFor="email">Email</label>
-              <Field id="email" name="email" placeholder="alice@martin.com" type="email" />
-              <ErrorMessage name="email" />
+      <div className="react-app-registration-page-form">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validate={handleValidation}
+          validateOnChange
+        >
+          {({ status }) =>
+            status ? (
+              <p className="react-app-registration-page-form-status">{status}</p>
+            ) : (
+              <Form className="react-app-registration-page-form">
+                <label htmlFor="email">Email</label>
+                <Field id="email" name="email" placeholder="alice@martin.com" type="email" />
+                <ErrorMessage name="email" />
 
-              <label htmlFor="firstName">First Name</label>
-              <Field id="firstName" name="firstName" placeholder="Alice" />
-              <ErrorMessage name="firstName" />
+                <label htmlFor="firstName">First Name</label>
+                <Field id="firstName" name="firstName" placeholder="Alice" />
+                <ErrorMessage name="firstName" />
 
-              <label htmlFor="lastName">Last Name</label>
-              <Field id="lastName" name="lastName" placeholder="Martin" />
-              <ErrorMessage name="lastName" />
+                <label htmlFor="lastName">Last Name</label>
+                <Field id="lastName" name="lastName" placeholder="Martin" />
+                <ErrorMessage name="lastName" />
 
-              <label htmlFor="password">Password</label>
-              <Field id="password" name="password" type="password" />
-              <ErrorMessage name="password" />
+                <label htmlFor="password">Password</label>
+                <Field id="password" name="password" type="password" />
+                <ErrorMessage name="password" />
 
-              <button type="submit">Submit</button>
-            </Form>
-          )
-        }
-      </Formik>
+                <button className="react-app-registration-page-form-submit-button" type="submit">
+                  Submit
+                </button>
+              </Form>
+            )
+          }
+        </Formik>
+      </div>
     </div>
   )
 }

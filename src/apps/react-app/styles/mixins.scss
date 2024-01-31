@@ -50,3 +50,17 @@
     @include grid-container($colGutter: 48px);
   }
 }
+
+@mixin grid-item($colStart: auto, $colEnd: auto, $rowStart: auto, $rowEnd: auto) {
+  grid-column-start: $colStart;
+  grid-column-end: $colEnd;
+  grid-row-start: $rowStart;
+  grid-row-end: $rowEnd;
+  @content;
+}
+
+@mixin columns-with-gap($gap) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}

@@ -1,0 +1,6 @@
+@import 'React-App/styles/mixins.scss';
+
+.react-app-home-page-main {
+  @include grid-item($colStart: 1, $colEnd: -1, $rowStart: auto, $rowEnd: auto);
+  @include twelve-column-layout;
+}

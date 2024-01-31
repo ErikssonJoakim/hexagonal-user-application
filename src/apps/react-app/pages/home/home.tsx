@@ -2,6 +2,7 @@ import type { FC } from 'react'
 import { useContext } from 'react'
 import { UserContext } from 'React-App/contexts/user.context'
 import { LoginForm } from 'React-App/views/home/loginForm/loginForm'
+import './home.scss'
 
 export const Home: FC = () => {
   const { user } = useContext(UserContext)
