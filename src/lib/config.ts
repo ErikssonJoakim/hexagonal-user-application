@@ -27,7 +27,7 @@ export const config: Config = {
     mysql: {
       host: process.env.MYSQL_HOST,
       port: process.env.MYSQL_PORT,
-      user: process.env.MYSQL_USER,
+      user: process.env.MYSQL_SERVER_USER,
       database: process.env.MYSQL_DATABASE,
       password: process.env.MYSQL_ROOT_PASSWORD
     },
