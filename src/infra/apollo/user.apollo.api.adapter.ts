@@ -11,6 +11,7 @@ import { ResourceAlreadyExistsError } from '@/shared/errors/resource'
 import type { SerializationError } from '@/shared/errors/serialization'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { gql, isApolloError } from '@apollo/client'
+import type { LoginUserCommand } from '@/application/usecases/login-user.usecase'
 
 const CREATE_USER = gql`
   mutation ($input: UserRegistration!) {
@@ -40,8 +41,55 @@ const USER_ID = gql`
   }
 `
 
+const GET_USER_BY_CREDENTIALS = gql`
+  query ($input: UserCredentials!) {
+    userLogin(input: $input) {
+      id
+      email
+      firstName
+      lastName
+      password
+      createdAt
+      updatedAt
+    }
+  }
+`
+
 export class ApolloUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly client: ApolloClient<NormalizedCacheObject>) {}
+
+  async login(
+    loginCredentials: LoginUserCommand
+  ): Promise<User | SerializationError | ResourceNotFoundError | NetworkError> {
+    return this.client
+      .query<{ userLogin: User }>({
+        query: GET_USER_BY_CREDENTIALS,
+        variables: {
+          input: loginCredentials
+        }
+      })
+      .then(
+        ({ data }) => data.userLogin,
+        error => {
+          // TODO: refactor boilerplate code
+          switch (error.code) {
+            case 'SERVICE_UNAVAILABLE':
+              return HTTPNetworkError({
+                errorCode: 503,
+                reason: 'api network issues',
+                rawMessage: error.message
+              })
+            case 'INTERNAL_SERVER_ERROR':
+              return NetworkUnspecifiedError('server error while treating request ')
+            case 'NOT_FOUND':
+              return ResourceNotFoundError(['Unable to retrieve user by credentials'])
+            case 'UNSPECIFIED':
+            default:
+              return NetworkUnspecifiedError('an unspecified error occured while fetching user')
+          }
+        }
+      )
+  }
 
   // eslint-disable-next-line max-lines-per-function
   async create({

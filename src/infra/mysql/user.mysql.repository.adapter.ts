@@ -6,6 +6,7 @@ import type { NetworkError } from '@/shared/errors/network'
 import { HTTPNetworkError, NetworkUnspecifiedError } from '@/shared/errors/network'
 import { ResourceAlreadyExistsError, ResourceNotFoundError } from '@/shared/errors/resource'
 import { SerializationError } from '@/shared/errors/serialization'
+import type { LoginUserCommand } from '@/application/usecases/login-user.usecase'
 
 interface MysqlUser extends mysql.RowDataPacket {
   user_id: string
@@ -23,8 +24,52 @@ const REGISTER_USER_QUERY =
 const GET_USER_BY_ID =
   'SELECT user_id, email, first_name, last_name, password, created_at, updated_at FROM users WHERE user_id = ?;'
 
+const GET_USER_BY_CREDENTIALS =
+  'SELECT user_id, email, first_name, last_name, password, created_at, updated_at FROM users WHERE email = ? AND password = ?;'
+
 export class MysqlUserRepositoryAdaptor implements UserRepositoryPort {
   constructor(private readonly pool: mysql.Pool) {}
+
+  async login({
+    email,
+    password
+  }: LoginUserCommand): Promise<User | SerializationError | ResourceNotFoundError | NetworkError> {
+    return this.pool.execute<MysqlUser[]>(GET_USER_BY_CREDENTIALS, [email, password]).then(
+      ([rows]) => {
+        // TODO: refactor boilerplate code
+        if (rows.length === 0) return ResourceNotFoundError([email])
+
+        try {
+          const { user_id, email, first_name, last_name, password, created_at, updated_at } =
+            rows[0]
+
+          const user: User = User.fromData({
+            id: user_id,
+            email,
+            firstName: first_name,
+            lastName: last_name,
+            password,
+            createdAt: created_at,
+            updatedAt: updated_at ?? undefined
+          })
+
+          return user
+        } catch (error) {
+          return SerializationError('user serialization from database unsuccessful')
+        }
+      },
+      error => {
+        if (error.code === 'ECONNREFUSED')
+          return HTTPNetworkError({
+            errorCode: 503,
+            reason: 'database not available',
+            rawMessage: error
+          })
+
+        return NetworkUnspecifiedError('an unspecified error occured while fetching user')
+      }
+    )
+  }
 
   async create({
     id,
