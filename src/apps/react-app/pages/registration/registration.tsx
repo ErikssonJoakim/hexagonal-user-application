@@ -7,6 +7,8 @@ import { UserEmail, UserFirstName, UserLastName, UserPassword } from '@/domain/u
 import { isValidationNotConformError } from '@/shared/errors/validation'
 import { UserContext } from '../../contexts/user.context'
 import './registration.scss'
+import { Button } from '@/apps/design-system/ui/atoms/button/button'
+import { useNavigate } from 'react-router-dom'
 
 type RegistrationInput = RegisterUserCommand
 
@@ -21,6 +23,7 @@ type RegistrationValidation = (input: RegistrationInput) => FormikErrors<Registr
 export const Registration: FC = () => {
   const initialValues: RegistrationInput = { email: '', firstName: '', lastName: '', password: '' }
   const userContext = useContext(UserContext)
+  const navigate = useNavigate()
 
   const handleValidation: RegistrationValidation = useCallback(
     ({ email, firstName, lastName, password }) => {
@@ -78,6 +81,10 @@ export const Registration: FC = () => {
     [userContext]
   )
 
+  const handleBack = useCallback(() => {
+    navigate('/')
+  }, [navigate])
+
   return (
     <div className="react-app-registration-page-main">
       <div className="react-app-registration-page-form">
@@ -111,6 +118,7 @@ export const Registration: FC = () => {
                 <button className="react-app-registration-page-form-submit-button" type="submit">
                   Submit
                 </button>
+                <Button label="Back" onClick={handleBack} />
               </Form>
             )
           }
