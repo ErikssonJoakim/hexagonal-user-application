@@ -9,7 +9,7 @@ These instructions will get your project up and running on your local machine fo
 
 ### Prerequisites
 
-Be sure to have the following properly installed:
+Be sure to have the following properly installed and running:
 
 - [Node.js](https://nodejs.org/ru/) `v18.18` ([gallium](https://nodejs.org/en/blog/release/v18.18.0/))
 - [yarn](https://classic.yarnpkg.com) `v1.22.21`
