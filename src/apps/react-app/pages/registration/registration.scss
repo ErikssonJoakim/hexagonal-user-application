@@ -4,17 +4,30 @@
   @include grid-item($colStart: 1, $colEnd: -1, $rowStart: auto, $rowEnd: auto);
   @include twelve-column-layout;
 
-  .react-app-registration-page-form {
-    @include columns-with-gap($gap: 10px);
+  .react-app-registration-page-form-container {
     @include grid-item($colStart: 6, $colEnd: -6, $rowStart: auto, $rowEnd: auto);
+    @include grid-container($colsNb: 2, $colGutter: 16px);
     align-self: center;
 
-    @include use-breakpoints(('mobile')) {
-      @include grid-item($colStart: 3, $colEnd: -3, $rowStart: auto, $rowEnd: auto);
+    @include use-breakpoints(('mobile', 'tablet')) {
+      @include columns-with-gap($gap: 20px);
     }
 
-    @include use-breakpoints(('tablet')) {
-      @include grid-item($colStart: 4, $colEnd: -4, $rowStart: auto, $rowEnd: auto);
+    .react-app-registration-page-form {
+      @include columns-with-gap($gap: 10px);
+
+      @include use-breakpoints(('mobile')) {
+        @include grid-item($colStart: 3, $colEnd: -3, $rowStart: auto, $rowEnd: auto);
+      }
+
+      @include use-breakpoints(('tablet')) {
+        @include grid-item($colStart: 4, $colEnd: -4, $rowStart: auto, $rowEnd: auto);
+      }
+    }
+
+    .react-app-registration-page-button-back-wrapper {
+      align-self: center;
+      justify-self: center;
     }
   }
 }

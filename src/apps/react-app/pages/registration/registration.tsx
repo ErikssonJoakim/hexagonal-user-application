@@ -87,7 +87,7 @@ export const Registration: FC = () => {
 
   return (
     <div className="react-app-registration-page-main">
-      <div className="react-app-registration-page-form">
+      <div className="react-app-registration-page-form-container">
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}
@@ -118,11 +118,13 @@ export const Registration: FC = () => {
                 <button className="react-app-registration-page-form-submit-button" type="submit">
                   Submit
                 </button>
-                <Button label="Back" onClick={handleBack} />
               </Form>
             )
           }
         </Formik>
+        <div className="react-app-registration-page-button-back-wrapper">
+          <Button label="Back" onClick={handleBack} />
+        </div>
       </div>
     </div>
   )
